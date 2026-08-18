@@ -2,48 +2,93 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <title>轻压图 - 免费在线图片压缩与格式转换工具</title>
-    <meta name="title" content="轻压图 - 免费在线图片压缩与格式转换工具">
-    <meta name="description" content="免费在线压缩和转换图片。支持 JPEG、PNG、WebP、AVIF 和 JPEG XL。全部在浏览器本地处理，不会上传到服务器。">
-    <meta name="keywords" content="图片压缩, 格式转换, WebP, JPEG, PNG, AVIF, 在线压缩, 本地处理, 批量压缩">
+    <title>PixSmush - 免费在线图片压缩与格式转换工具</title>
+    <meta name="title" content="PixSmush - 免费在线图片压缩与格式转换工具">
+    <meta name="description" content="PixSmush 是免费在线图片压缩与格式转换工具，支持 JPEG、PNG、WebP、AVIF 和 JPEG XL，图片在浏览器本地处理。">
+    <meta name="keywords" content="PixSmush, 图片压缩, 图片格式转换, WebP, JPEG, PNG, AVIF, JPEG XL, 批量压缩">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="canonical" href="https://pixsmush.com/" />
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
-    <link rel="apple-touch-icon" href="/icon.svg">
+    <link rel="icon" type="image/png" sizes="128x128" href="/icon-128x128.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/icon-512x512.png" />
 
     <meta property="og:type" content="website">
-    <meta property="og:title" content="轻压图 - 免费在线图片压缩与格式转换工具">
-    <meta property="og:description" content="免费在线压缩和转换图片。全部在浏览器本地处理，不会上传到服务器。">
-    <meta property="og:image" content="/icon.svg">
+    <meta property="og:url" content="https://pixsmush.com/">
+    <meta property="og:title" content="PixSmush - 免费在线图片压缩与格式转换工具">
+    <meta property="og:description" content="使用 PixSmush 在浏览器本地压缩和转换图片，支持 JPEG、PNG、WebP、AVIF 和 JPEG XL。">
+    <meta property="og:image" content="https://pixsmush.com/meta.jpg">
     <meta property="og:locale" content="zh_CN">
 
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="轻压图 - 免费在线图片压缩与格式转换工具">
-    <meta name="twitter:description" content="免费在线压缩和转换图片。全部在浏览器本地处理，不会上传到服务器。">
-    <meta name="twitter:image" content="/icon.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PixSmush - 免费在线图片压缩与格式转换工具">
+    <meta name="twitter:description" content="使用 PixSmush 在浏览器本地压缩和转换图片，支持 JPEG、PNG、WebP、AVIF 和 JPEG XL。">
+    <meta name="twitter:image" content="https://pixsmush.com/meta.jpg">
 
     <meta name="theme-color" content="#3b82f6">
 
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "轻压图",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Any",
-        "description": "免费在线图片压缩与格式转换工具。图片全部在浏览器本地处理，不会上传到服务器。",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "CNY"
-        }
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "name": "PixSmush",
+            "url": "https://pixsmush.com/",
+            "applicationCategory": "MultimediaApplication",
+            "operatingSystem": "Any",
+            "description": "PixSmush 是免费在线图片压缩与格式转换工具，图片在浏览器本地处理，不会上传到服务器。",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "CNY"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "PixSmush是什么？",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "PixSmush 是一个免费的在线图片压缩与格式转换工具，可以在浏览器中处理图片。"
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "是否上传图片到服务器？",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "不会。图片会在当前浏览器本地解码、压缩和转换，不会上传到服务器。"
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "支持哪些图片格式？",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "支持 JPEG、PNG、WebP、AVIF 和 JPEG XL 图片格式。"
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "是否支持手机浏览器？",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "支持。PixSmush 可以在支持现代 Web API 的手机浏览器中使用。"
+                }
+              }
+            ]
+          }
+        ]
       }
     </script>
   </head>
   <body>
     <div id="root"></div>
     <noscript>
-      轻压图是免费的在线图片压缩与格式转换工具。请启用 JavaScript 后使用。图片全部在浏览器本地处理，不会上传到服务器。
+      PixSmush 是免费的在线图片压缩与格式转换工具。请启用 JavaScript 后使用。图片全部在浏览器本地处理，不会上传到服务器。
     </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
