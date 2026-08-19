@@ -6,6 +6,7 @@ import { ImageList } from './components/ImageList';
 import { DownloadAll } from './components/DownloadAll';
 import { ProcessingSummary } from './components/ProcessingSummary';
 import { PrivacyNotice } from './components/PrivacyNotice';
+import { AboutSection } from './components/AboutSection';
 import { HowToSection } from './components/HowToSection';
 import { FaqSection } from './components/FaqSection';
 import { AdPlaceholder } from './components/AdPlaceholder';
@@ -224,6 +225,7 @@ export function App() {
         </div>
 
         <div className="mt-12 space-y-6">
+          <AboutSection />
           <HowToSection />
           <AdPlaceholder slot="9161192182" />
           <FaqSection />

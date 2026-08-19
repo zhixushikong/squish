@@ -101,6 +101,10 @@ export const enCopy = {
       'When processing finishes, download files one by one or grab everything at once.',
     ],
   },
+  about: {
+    title: 'About PixSmush',
+    body: 'PixSmush is a browser-based image compression and conversion tool built to help people reduce image file sizes quickly while keeping their files on their own device.',
+  },
   faq: {
     title: 'FAQ',
     items: [

@@ -100,6 +100,10 @@ export const zhCopy = {
       '等待处理完成，即可单张下载，或一次性下载全部。',
     ],
   },
+  about: {
+    title: '关于 PixSmush',
+    body: 'PixSmush 是一个在浏览器中运行的图片压缩与格式转换工具，帮助用户快速减小图片体积，同时让图片文件保留在自己的设备上处理。',
+  },
   faq: {
     title: '常见问题',
     items: [

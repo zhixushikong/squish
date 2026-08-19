@@ -84,6 +84,10 @@ export interface Copy {
     title: string;
     steps: readonly string[];
   };
+  about: {
+    title: string;
+    body: string;
+  };
   faq: {
     title: string;
     items: readonly {
