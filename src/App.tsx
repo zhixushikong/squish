@@ -225,9 +225,9 @@ export function App() {
 
         <div className="mt-12 space-y-6">
           <HowToSection />
-          <AdPlaceholder />
+          <AdPlaceholder slot="9161192182" />
           <FaqSection />
-          <AdPlaceholder />
+          <AdPlaceholder slot="4353231402" />
         </div>
       </div>
 
