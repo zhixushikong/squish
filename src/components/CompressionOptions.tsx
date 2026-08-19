@@ -1,44 +1,36 @@
-import { useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 import type { OutputType, CompressionOptions, ResizeMode } from '../types';
-import { copy } from '../copy/zh';
+import type { Copy } from '../copy';
+import { useLanguage } from '../context/language';
 
 interface CompressionOptionsProps {
   options: CompressionOptions;
   outputType: OutputType;
-  onOptionsChange: (options: CompressionOptions) => void;
+  onOptionsChange: Dispatch<SetStateAction<CompressionOptions>>;
   onOutputTypeChange: (type: OutputType) => void;
 }
 
 const commonFormats = ['webp', 'jpeg', 'png'] as const;
 const extraFormats = ['avif', 'jxl'] as const;
-const resizeModes: ReadonlyArray<{ value: ResizeMode; label: string }> = [
-  { value: 'original', label: copy.resize.original },
-  { value: 'long-edge-1920', label: copy.resize.longEdge1920 },
-  { value: 'long-edge-1280', label: copy.resize.longEdge1280 },
-  { value: 'long-edge-800', label: copy.resize.longEdge800 },
-  { value: 'custom', label: copy.resize.custom },
-];
-
-function formatMeta(format: OutputType) {
-  return copy.format[format];
-}
 
 function FormatButton({
   format,
+  meta,
   selected,
   onSelect,
 }: {
   format: OutputType;
+  meta: Copy['format'][OutputType];
   selected: boolean;
   onSelect: (type: OutputType) => void;
 }) {
-  const meta = formatMeta(format);
   const badge = 'badge' in meta ? meta.badge : undefined;
 
   return (
     <button
       type="button"
       onClick={() => onSelect(format)}
+      aria-pressed={selected}
       className={`min-h-[44px] w-full min-w-0 rounded-xl border p-3 text-left transition-colors ${
         selected
           ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
@@ -72,12 +64,25 @@ export function CompressionOptions({
   onOptionsChange,
   onOutputTypeChange,
 }: CompressionOptionsProps) {
+  const { copy } = useLanguage();
+  const resizeModes: ReadonlyArray<{ value: ResizeMode; label: string }> = [
+    { value: 'original', label: copy.resize.original },
+    { value: 'long-edge-1920', label: copy.resize.longEdge1920 },
+    { value: 'long-edge-1280', label: copy.resize.longEdge1280 },
+    { value: 'long-edge-800', label: copy.resize.longEdge800 },
+    { value: 'custom', label: copy.resize.custom },
+  ];
+
   const [showMore, setShowMore] = useState(
     extraFormats.includes(outputType as (typeof extraFormats)[number])
   );
 
+  function formatMeta(format: OutputType) {
+    return copy.format[format];
+  }
+
   const updateOptions = (changes: Partial<CompressionOptions>) => {
-    onOptionsChange({ ...options, ...changes });
+    onOptionsChange((previous) => ({ ...previous, ...changes }));
   };
 
   const handleCustomWidthChange = (width: number) => {
@@ -116,6 +121,7 @@ export function CompressionOptions({
           <FormatButton
             key={format}
             format={format}
+            meta={formatMeta(format)}
             selected={outputType === format}
             onSelect={onOutputTypeChange}
           />
@@ -138,6 +144,7 @@ export function CompressionOptions({
               <FormatButton
                 key={format}
                 format={format}
+                meta={formatMeta(format)}
                 selected={outputType === format}
                 onSelect={onOutputTypeChange}
               />
@@ -148,10 +155,11 @@ export function CompressionOptions({
 
       {outputType !== 'png' && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="quality-range" className="mb-2 block text-sm font-medium text-gray-700">
             {copy.format.quality}：{options.quality}%
           </label>
           <input
+            id="quality-range"
             type="range"
             min="1"
             max="100"

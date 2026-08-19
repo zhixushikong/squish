@@ -1,8 +1,14 @@
-export const copy = {
-  brand: '轻压图',
-  tagline: '免费在线图片压缩与格式转换工具',
-  privacyOneLiner: '图片全部在你的浏览器本地处理，不会上传到服务器。',
+import type { Copy } from './types';
 
+export const zhCopy = {
+  brand: 'PixSmush',
+  tagline: '免费在线图片压缩与格式转换工具',
+  seo: {
+    title: 'PixSmush - 免费在线图片压缩与格式转换工具',
+    description: 'PixSmush 是免费在线图片压缩与格式转换工具，支持 JPEG、PNG、WebP、AVIF 和 JPEG XL，图片在浏览器本地处理。',
+    ogLocale: 'zh_CN',
+  },
+  privacyOneLiner: '图片全部在你的浏览器本地处理，不会上传到服务器。',
   format: {
     title: '选择输出格式',
     hint: '上传后会按此格式压缩或转换。',
@@ -33,7 +39,6 @@ export const copy = {
       desc: '较新的格式，兼容性有限',
     },
   },
-
   resize: {
     title: '调整尺寸',
     hint: '默认使用原始尺寸，图片不会被放大。',
@@ -47,14 +52,12 @@ export const copy = {
     maintainAspectRatio: '锁定比例',
     aspectRatioHint: '处理时会按原图比例缩放',
   },
-
   upload: {
     title: '添加要压缩的图片',
     action: '选择图片',
     hint: '点击按钮选择，或把图片拖到这里。一次可以选多张。',
     formats: '支持 JPEG、PNG、WebP，以及 AVIF、JPEG XL',
   },
-
   list: {
     download: '下载',
     remove: '移除',
@@ -64,13 +67,12 @@ export const copy = {
     complete: '完成',
     errorFallback: '处理失败',
     smaller: '缩小',
+    previewNotSupported: '当前浏览器暂不支持预览',
   },
-
   actions: {
     downloadAll: (count: number) => `下载全部（ZIP，${count} 张）`,
     clearAll: '清空列表',
   },
-
   batch: {
     title: '批量处理进度',
     processing: '正在处理',
@@ -90,7 +92,6 @@ export const copy = {
     largeBatchHint: '一次处理较多图片可能会占用较多内存，建议分批处理。',
     mobileLargeBatchHint: '手机同时处理较多图片可能占用较多内存，建议分批处理。',
   },
-
   howTo: {
     title: '如何使用',
     steps: [
@@ -99,7 +100,6 @@ export const copy = {
       '等待处理完成，即可单张下载，或一次性下载全部。',
     ],
   },
-
   faq: {
     title: '常见问题',
     items: [
@@ -123,41 +123,37 @@ export const copy = {
         q: '手机拍照的 HEIC 能用吗？',
         a: '目前不支持 HEIC。请先在系统里导出为 JPEG 或 PNG 再上传。',
       },
+      {
+        q: '我的图片会用于分析或广告吗？',
+        a: '不会。用户选择的图片文件不会上传到 PixSmush 服务器，也不会用于分析或广告。网站可能使用 Google Analytics 4 统计汇总访问数据，未来广告服务可能使用常规广告技术。',
+      },
     ],
   },
-
+  advertisement: {
+    label: '广告',
+  },
   privacy: {
     title: '隐私说明',
-    body: '轻压图是纯前端工具：你选择的图片只在当前浏览器中解码、压缩和转换，不会上传、不会存到云端，也不会用于分析。关闭页面后，处理结果只保留在你本机下载的文件里。',
+    paragraphs: [
+      '图片在浏览器本地处理，不会上传到 PixSmush 服务器，不会存到云端，也不会发送给我们处理。关闭页面后，处理结果只保留在你本机下载的文件里。',
+      '网站使用 Google Analytics 4 了解汇总访问情况，用于了解使用情况和改进服务。分析数据不包含用户选择的图片文件。',
+      '网站未来可能使用广告服务。在适用情况下，广告服务可能使用 Cookie、设备信息或广告标识，具体以相关服务的政策和用户可用的选择为准。',
+      '联系邮箱：zhixushikong@gmail.com',
+    ],
   },
-
   footer: {
-    copyright: '轻压图',
+    navLabel: '页脚导航',
+    copyright: 'PixSmush',
     privacyLink: '隐私说明',
     faqLink: '常见问题',
+    contactLink: '联系',
+    contactTitle: '联系方式',
+    contactLabel: '邮箱',
+    contactEmail: 'zhixushikong@gmail.com',
+    copyEmail: '复制邮箱',
+    copied: '已复制',
     thanksTitle: '开源致谢',
     thanks:
       '界面与处理流程基于 Addy Osmani 的开源项目 Squish 改造，图片编解码使用 jSquash（源自 Squoosh）。原项目采用 MIT 许可。本站仅使用其技术实现，不代表原作者或原网站。',
   },
-} as const;
-
-export function formatErrorMessage(error?: string): string {
-  if (!error) return copy.list.errorFallback;
-
-  const exact: Record<string, string> = {
-    'Empty file': '文件是空的',
-    'Invalid image data': '无法读取这张图片',
-    'Failed to compress image': '压缩失败',
-    'Failed to process image': '处理失败',
-    'Unsupported HEIC image': '当前暂不支持 HEIC/HEIF 图片，请选择 JPG、PNG 或 WebP 图片。',
-    'Unsupported input format': '当前图片格式暂不支持，请选择 JPG、PNG 或 WebP 图片。',
-  };
-
-  if (exact[error]) return exact[error];
-  if (error.startsWith('Failed to decode')) return '无法解码该图片格式';
-  if (error.startsWith('Failed to encode')) return '无法转换到目标格式';
-  if (error.startsWith('Unsupported')) return '暂不支持该格式';
-  if (error.startsWith('Failed to initialize')) return '该格式组件加载失败，请刷新页面重试';
-
-  return error;
-}
+} as const satisfies Copy;

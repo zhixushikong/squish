@@ -1,7 +1,7 @@
 import { useCallback, type ChangeEvent, type DragEvent } from 'react';
 import { Upload } from 'lucide-react';
 import type { ImageFile } from '../types';
-import { copy } from '../copy/zh';
+import { useLanguage } from '../context/language';
 
 interface DropZoneProps {
   onFilesDrop: (files: ImageFile[]) => void;
@@ -110,6 +110,7 @@ function createImageFiles(files: File[]): ImageFile[] {
 }
 
 export function DropZone({ onFilesDrop }: DropZoneProps) {
+  const { copy } = useLanguage();
   const handleDrop = useCallback((e: DragEvent) => {
     e.preventDefault();
     const files = createImageFiles(Array.from(e.dataTransfer.files));
@@ -150,7 +151,7 @@ export function DropZone({ onFilesDrop }: DropZoneProps) {
             {copy.upload.formats}
           </p>
         </div>
-        <span className="relative inline-flex min-h-[44px] w-full items-center justify-center overflow-hidden rounded-lg bg-blue-500 px-5 py-2.5 text-sm font-medium text-white touch-manipulation sm:w-auto">
+        <span className="relative inline-flex min-h-[44px] w-full items-center justify-center overflow-hidden rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white touch-manipulation sm:w-auto">
           <span>{copy.upload.action}</span>
           <input
             type="file"

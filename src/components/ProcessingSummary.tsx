@@ -1,6 +1,6 @@
 import type { ImageFile } from '../types';
-import { copy } from '../copy/zh';
 import { formatFileSize } from '../utils/imageProcessing';
+import { useLanguage } from '../context/language';
 
 interface ProcessingSummaryProps {
   images: ImageFile[];
@@ -11,6 +11,7 @@ function formatPercentage(value: number): string {
 }
 
 export function ProcessingSummary({ images }: ProcessingSummaryProps) {
+  const { copy } = useLanguage();
   if (images.length === 0) return null;
 
   const totalCount = images.length;

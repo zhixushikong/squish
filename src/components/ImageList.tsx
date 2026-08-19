@@ -2,7 +2,8 @@ import { X, CheckCircle, AlertCircle, Loader2, Download } from 'lucide-react';
 import type { ImageFile } from '../types';
 import { formatFileSize } from '../utils/imageProcessing';
 import { downloadImage } from '../utils/download';
-import { copy, formatErrorMessage } from '../copy/zh';
+import { formatErrorMessage } from '../copy';
+import { useLanguage } from '../context/language';
 
 interface ImageListProps {
   images: ImageFile[];
@@ -10,6 +11,7 @@ interface ImageListProps {
 }
 
 export function ImageList({ images, onRemove }: ImageListProps) {
+  const { language, copy } = useLanguage();
   if (images.length === 0) return null;
 
   return (
@@ -19,13 +21,17 @@ export function ImageList({ images, onRemove }: ImageListProps) {
           key={image.id}
           className="flex min-w-0 items-start gap-3 overflow-hidden rounded-lg bg-white p-4 shadow-sm sm:gap-4"
         >
-          {image.preview && (
+          {image.status === 'complete' && image.outputType === 'jxl' ? (
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded bg-gray-100 p-2 text-center text-xs text-gray-500">
+              {copy.list.previewNotSupported}
+            </div>
+          ) : image.preview ? (
             <img
               src={image.preview}
               alt={image.file.name}
               className="h-16 w-16 shrink-0 rounded object-cover"
             />
-          )}
+          ) : null}
           <div className="flex-1 min-w-0">
             <div className="flex min-w-0 items-start justify-between gap-2">
               <p className="min-w-0 flex-1 truncate text-sm font-medium leading-5 text-gray-900">
@@ -37,8 +43,8 @@ export function ImageList({ images, onRemove }: ImageListProps) {
                     type="button"
                     onClick={() => downloadImage(image)}
                     className="flex h-11 w-11 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                    title={copy.list.download}
-                    aria-label={copy.list.download}
+                    title={`${copy.list.download}: ${image.file.name}`}
+                    aria-label={`${copy.list.download}: ${image.file.name}`}
                   >
                     <Download className="w-5 h-5" />
                   </button>
@@ -47,8 +53,8 @@ export function ImageList({ images, onRemove }: ImageListProps) {
                   type="button"
                   onClick={() => onRemove(image.id)}
                   className="flex h-11 w-11 items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                  title={copy.list.remove}
-                  aria-label={copy.list.remove}
+                  title={`${copy.list.remove}: ${image.file.name}`}
+                  aria-label={`${copy.list.remove}: ${image.file.name}`}
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -76,7 +82,7 @@ export function ImageList({ images, onRemove }: ImageListProps) {
               {image.status === 'error' && (
                 <span className="flex items-center gap-2 text-red-600">
                   <AlertCircle className="w-4 h-4" />
-                  {formatErrorMessage(image.error)}
+                  {formatErrorMessage(image.error, language)}
                 </span>
               )}
             </div>

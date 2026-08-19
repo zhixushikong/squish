@@ -1,6 +1,7 @@
-import { copy } from '../copy/zh';
+import { useLanguage } from '../context/language';
 
 export function FaqSection() {
+  const { copy } = useLanguage();
   return (
     <section id="faq" className="rounded-xl bg-white p-6 shadow-sm" aria-labelledby="faq-title">
       <h2 id="faq-title" className="text-lg font-semibold text-gray-900">

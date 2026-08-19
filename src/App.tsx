@@ -8,14 +8,17 @@ import { ProcessingSummary } from './components/ProcessingSummary';
 import { PrivacyNotice } from './components/PrivacyNotice';
 import { HowToSection } from './components/HowToSection';
 import { FaqSection } from './components/FaqSection';
+import { AdPlaceholder } from './components/AdPlaceholder';
 import { SiteFooter } from './components/SiteFooter';
+import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { useImageQueue } from './hooks/useImageQueue';
 import { DEFAULT_QUALITY_SETTINGS } from './utils/formatDefaults';
 import { downloadAllImages } from './utils/download';
-import { copy } from './copy/zh';
+import { useLanguage } from './context/language';
 import type { ImageFile, OutputType, CompressionOptions as CompressionOptionsType } from './types';
 
 export function App() {
+  const { language, copy } = useLanguage();
   const [images, setImages] = useState<ImageFile[]>([]);
   const [showLargeBatchHint, setShowLargeBatchHint] = useState(false);
   const [showMobileLargeBatchHint, setShowMobileLargeBatchHint] = useState(false);
@@ -32,6 +35,38 @@ export function App() {
   const imagesRef = useRef(images);
   const previousSettingsSignatureRef = useRef('');
   imagesRef.current = images;
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.title = copy.seo.title;
+
+    const metaByName = [
+      ['title', copy.seo.title],
+      ['description', copy.seo.description],
+      ['twitter:title', copy.seo.title],
+      ['twitter:description', copy.seo.description],
+    ] as const;
+
+    metaByName.forEach(([name, content]) => {
+      const element = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
+      if (element) {
+        element.content = content;
+      }
+    });
+
+    const ogByProperty = [
+      ['og:title', copy.seo.title],
+      ['og:description', copy.seo.description],
+      ['og:locale', copy.seo.ogLocale],
+    ] as const;
+
+    ogByProperty.forEach(([property, content]) => {
+      const element = document.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
+      if (element) {
+        element.content = content;
+      }
+    });
+  }, [copy, language]);
 
   const settingsSignature = [
     outputType,
@@ -70,12 +105,6 @@ export function App() {
 
   const handleOutputTypeChange = useCallback((type: OutputType) => {
     setOutputType(type);
-    if (type !== 'png') {
-      setOptions((previous) => ({
-        ...previous,
-        quality: DEFAULT_QUALITY_SETTINGS[type],
-      }));
-    }
   }, []);
 
   const handleFilesDrop = useCallback((newImages: ImageFile[]) => {
@@ -130,6 +159,9 @@ export function App() {
         }`}
       >
         <header className="mb-8 text-center">
+          <div className="mb-4 flex justify-center">
+            <LanguageSwitcher />
+          </div>
           <div className="mb-4 flex items-center justify-center gap-2">
             <Image className="h-8 w-8 text-blue-500" aria-hidden="true" />
             <h1 className="text-3xl font-bold text-gray-900">{copy.brand}</h1>
@@ -164,13 +196,15 @@ export function App() {
 
           <ProcessingSummary images={images} />
 
-          <div className="hidden sm:block">
-            <DownloadAll
-              onDownloadAll={handleDownloadAll}
-              count={completedImages}
-              disabled={completedImages === 0}
-            />
-          </div>
+          {completedImages > 0 && (
+            <div className="hidden sm:block">
+              <DownloadAll
+                onDownloadAll={handleDownloadAll}
+                count={completedImages}
+                disabled={false}
+              />
+            </div>
+          )}
 
           <ImageList 
             images={images} 
@@ -181,7 +215,7 @@ export function App() {
             <button
               type="button"
               onClick={handleClearAll}
-              className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
+              className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
             >
               <Trash2 className="w-5 h-5" />
               {copy.actions.clearAll}
@@ -191,7 +225,9 @@ export function App() {
 
         <div className="mt-12 space-y-6">
           <HowToSection />
+          <AdPlaceholder />
           <FaqSection />
+          <AdPlaceholder />
         </div>
       </div>
 
